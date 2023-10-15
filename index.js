@@ -1,13 +1,14 @@
 const express = require('express')
 
+const resolveMavenDependency = require('./utils/dependencyResolver')
+
 const app = express()
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-// Implement a route that accepts GET requests with parameters for Group
-// ID, Artifact ID, and Version.
+
 app.get('/maven', (req, res) => {
     
     const groupId = req.query.groupId
@@ -18,11 +19,15 @@ app.get('/maven', (req, res) => {
         return res.status(400).json({ error: 'Missing parameters' });
     }
 
-    return res.status(200).json({
-        groupId,
-        artifactId,
-        version
-    })
+    resolveMavenDependency(groupId, artifactId, version, (error, jarPath) => {
+        if (error) {
+          res.status(500).send({ error: error.message });
+        } else {
+            console.log(jarPath)
+            res.setHeader('Content-Disposition', 'attachment; filename=' + `${artifactId}-${version}.jar`)
+            res.sendFile(jarPath)
+        }
+      });
 })
 
 app.listen(3000, () => {
