@@ -4,7 +4,7 @@ def resolve_maven_dependency(group_id, artifact_id, version):
     try:
         # Define the command to run the Java program with arguments
         java_command = "java"
-        jar_file = "C:\trial projects\Secure Blink Task\target\local-repo\junit\junit\4.11\junit-4.11.jar"  # Update with the actual path
+        jar_file = "C:\trial projects\Secure Blink Task\target\local-repo\cp_d5msybub486dzu07jq5dj4hio.jar"  # Update with the actual path
         args = [java_command, "-jar", jar_file, group_id, artifact_id, version]
 
         # Execute the Java program as a subprocess

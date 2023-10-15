@@ -1,4 +1,5 @@
 const express = require('express')
+const { exec } = require('child_process');
 
 const resolveMavenDependency = require('./utils/dependencyResolver')
 
@@ -21,14 +22,15 @@ app.get('/maven', (req, res) => {
 
     resolveMavenDependency(groupId, artifactId, version, (error, jarPath) => {
         if (error) {
-          res.status(500).send({ error: error.message });
+            res.status(500).send({ error: error.message });
         } else {
-            console.log(jarPath)
             res.setHeader('Content-Disposition', 'attachment; filename=' + `${artifactId}-${version}.jar`)
+            // res.send("done")
             res.sendFile(jarPath)
         }
-      });
+    });
 })
+
 
 app.listen(3000, () => {
     console.log('Listening on port 3000!')
