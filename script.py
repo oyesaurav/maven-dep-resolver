@@ -3,7 +3,7 @@ import re
 
 express_api = "http://localhost:3000/maven"
 params = {
-    "groupId": "junit", 
+    "groupId": "", 
     "artifactId": "junit",
     "version": "4.1"
 }
@@ -30,7 +30,8 @@ try:
     
     elif response.status_code == 400:
         # The API returned a bad request response
-        print("Invalid API request. Please check the parameters.")
+        error_message = response.json()
+        print("Error 400:", error_message)
     else:
         print(f"Failed to resolve the dependency. Status code: {response.status_code}")
 
